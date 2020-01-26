@@ -19,7 +19,7 @@ namespace ScreenAutoRotate
 			ContextMenu context = new ContextMenu();
 			MenuItem settings = new MenuItem();
 			settings.Index = 0;
-			settings.Text = "Einstellungen";
+			settings.Text = "Settings";
 			MenuItem settings_port = new MenuItem();
 			settings_port.Index = 0;
 			settings_port.Text = "Port";
@@ -43,13 +43,13 @@ namespace ScreenAutoRotate
 			settings.MenuItems.Add(settings_port);
 			MenuItem settings_display = new MenuItem();
 			settings_display.Index = 1;
-			settings_display.Text = "Drehbare Anzeige";
+			settings_display.Text = "Rotatable display";
 			for (i=0; i<Displays; i++)
 			{
 				uint temp = (uint) i + 1;
 				MenuItem display = new MenuItem();
 				display.Index = i;
-				display.Text = $"Anzeige {temp}";
+				display.Text = $"Display {temp}";
 				display.Checked = Properties.Settings.Default.display == temp;
 				display.Click += (o, e) => 
 				{
@@ -64,7 +64,7 @@ namespace ScreenAutoRotate
 			settings.MenuItems.Add(settings_display);
 			MenuItem settings_position = new MenuItem();
 			settings_position.Index = 2;
-			settings_position.Text = "Save Display Positions.";
+			settings_position.Text = "Save Display Positions";
 			settings_position.Click += (o, e) =>
 			{
 				string Format = Display.LandscapeMode(Properties.Settings.Default.display) ? "landscape" : "portrait";

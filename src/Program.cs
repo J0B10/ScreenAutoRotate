@@ -45,7 +45,7 @@ namespace ScreenAutoRotate
                 Serial.DataReceived += Serial_DataReceived;
             } catch (SystemException e)
             {
-                r.Notify("Kommunikation fehlgeschlagen!", $"{e.Source}: {e.Message}");
+                r.Notify("Communication failed!", $"{e.Source}: {e.Message}");
             }
         }
 
@@ -59,7 +59,7 @@ namespace ScreenAutoRotate
                 switch (c) {
                     case 'l':
                         Display.Rotate(display, Display.Orientations.DEGREES_CW_0);
-                        if (r != null) r.Notify("Automatische Drehung", $"Bildschirm {display} ist nun im Querformat");
+                        if (r != null) r.Notify("Automatic Rotation", $"Display {display} is now in landscape mode");
                         for (uint i = 1; i <= Display.Connected(); i++)
                         {
                             (x, y) = Position(true, i);
@@ -68,7 +68,7 @@ namespace ScreenAutoRotate
                         break;
                     case 'p':
                         Display.Rotate(display, Display.Orientations.DEGREES_CW_270);
-                        if (r != null) r.Notify("Automatische Drehung", $"Bildschirm {display} ist nun Hochkant");
+                        if (r != null) r.Notify("Automatic Rotation", $"Display {display} is now in portrait mode");
                         for (uint i = 1; i <= Display.Connected(); i++)
                         {
                             (x, y) = Position(false, i);
