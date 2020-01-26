@@ -9,5 +9,5 @@ All used arduino scripts can be found in the `ArduinoScripts` directory.
 
 **This is my first application written in c#, so sorry if the code is really messy!**
 
-###The hardware
-![](arduino.jpg)
+### The hardware
+<img src="arduino.jpg" width="300" height="400"/>
