@@ -43,7 +43,12 @@ int rotate(int argc, char** argv) {
     
     try {
         Display d{ disp };
-        DisplayRotation rot = static_cast<DisplayRotation>((std::stoi(argv[2]) / 90) % 4);
+        int rotDeg{ std::stoi(argv[2]) };
+        if ((rotDeg % 90 != 0) || rotDeg < 0) {
+            std::cerr << "invalid rotation, use argument /? for further help\n";
+            return 1;
+        }
+        DisplayRotation rot = static_cast<DisplayRotation>( (rotDeg / 90) % 4);
         if (rot == DisplayRotation::cw_0) {
             return !d.resetRotation();
         } else {
@@ -97,7 +102,6 @@ void printInfo(int disp) {
     int rot{ static_cast<int>(d.getRotation()) * 90 };
     std::cout << "  Rotation: " << rot << " deg (clockwise)\n";
     std::cout << "  Position: (" << d.getPosX() << ", " << d.getPosY() <<")\n";
-    std::cout << "\n";
 }
 
 int info(int argc, char** argv) {
