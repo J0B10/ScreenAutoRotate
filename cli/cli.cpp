@@ -27,79 +27,74 @@ void help() {
 
 int rotate(int argc, char** argv) {
     if (argc < 3) {
-        std::cout << "Missing angle, use argument /? for further help\n";
+        std::cerr << "missing angle, use argument /? for further help\n";
         return 1;
     }
 
-    int disp{};
-    if (argc < 4) {
-        disp = 0;
-    } else {
+    int disp{0};
+    if (argc >= 4) {
         try {
             disp = { std::stoi(argv[3]) - 1 };
         } catch (const std::invalid_argument &ex) {
-            std::cout << "Invalid display number, use argument /? for further help\n";
+            std::cerr << "invalid display number, use argument /? for further help\n";
             return 1;
         }
     }
     
     try {
         Display d{ disp };
-        DisplayRotation rot{(std::stoi(argv[2]) / 90) % 4};
-        if (rot == cw_0) {
+        DisplayRotation rot = static_cast<DisplayRotation>((std::stoi(argv[2]) / 90) % 4);
+        if (rot == DisplayRotation::cw_0) {
             return !d.resetRotation();
         } else {
             return !d.rotate(rot);
         }
     } catch (const std::invalid_argument & ex) {
-        std::cout << "Invalid rotation, use argument /? for further help\n";
+        std::cerr << "invalid rotation, use argument /? for further help\n";
         return 1;
     } catch (const std::runtime_error & ex) {
-        std::cout << ex.what() << ", use argument /? for further help and /i to see current displays\n";
+        std::cerr << ex.what() << ", use argument /? for further help and /i to see current displays\n";
         return 1;
     }
 }
 
 int setPosition(int argc, char** argv) {
     if (argc < 4) {
-        std::cout << "Missing coords, use argument /? for further help\n";
+        std::cerr << "missing coords, use argument /? for further help\n";
         return 1;
     }
 
     int disp{0};
-    if (argc < 5) {
-        disp = { 0 };
-    }
-    else {
+    if (argc >= 5) {
         try {
             disp = { std::stoi(argv[4]) - 1 };
         }
         catch (const std::invalid_argument &ex) {
-            std::cout << "Invalid display number, use argument /? for further help\n";
+            std::cerr << "invalid display number, use argument /? for further help\n";
             return 1;
         }
     }
 
     try {
         Display d{ disp };
-        long x{ std::stoi(argv[2]) };
-        long y{ std::stoi(argv[3]) };
+        int x{ std::stoi(argv[2]) };
+        int y{ std::stoi(argv[3]) };
         return !d.setPos(x, y);
     }
     catch (const std::invalid_argument &ex) {
-        std::cout << "Invalid coordinates, use argument /? for further help\n";
+        std::cerr << "invalid coordinates, use argument /? for further help\n";
         return 1;
     }
     catch (const std::runtime_error &ex) {
-        std::cout << ex.what() << ", use argument /? for further help and /i to see current displays\n";
+        std::cerr << ex.what() << ", use argument /? for further help and /i to see current displays\n";
         return 1;
     }
 }
 
 void printInfo(int disp) {
     Display d{ disp };
-    std::cout << "[" << disp << "] " << d.getName() << ":\n";
-    int rot{ d.getRotation() * 90 };
+    std::cout << "[" << (disp + 1) << "] " << d.getName() << ":\n";
+    int rot{ static_cast<int>(d.getRotation()) * 90 };
     std::cout << "  Rotation: " << rot << " deg (clockwise)\n";
     std::cout << "  Position: (" << d.getPosX() << ", " << d.getPosY() <<")\n";
     std::cout << "\n";
@@ -121,7 +116,7 @@ int info(int argc, char** argv) {
             return 0;
         }
         catch (const std::invalid_argument & ex) {
-            std::cout << "Invalid display number, use argument /? for further help\n";
+            std::cerr << "invalid display number, use argument /? for further help\n";
             return 1;
         }
     }
@@ -143,7 +138,7 @@ int main(int argc, char** argv) {
     } else if (mode.compare("info") == 0 || mode.compare("/i") == 0) {
         return info(argc, argv);
     } else {
-        help();
+        std::cerr << "unknown argument, use /? for further help\n";
         return 1;
     }
 }
