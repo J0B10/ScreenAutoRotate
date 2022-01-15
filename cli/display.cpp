@@ -4,9 +4,9 @@
 #include "display.h"
 
 const int displayCount() {
-    int i = 0;
-    while (1) {
-        DEVMODE dm;
+    int i{0};
+    while (true) {
+        DEVMODE dm{};
         DISPLAY_DEVICE dd;
         dd.cb = { sizeof(DISPLAY_DEVICE) };
         if (!EnumDisplayDevices(NULL, i++, &dd, 0) 
@@ -22,13 +22,13 @@ Display::Display(int device) {
         throw std::runtime_error("could not enum display device " + std::to_string(device));
     }
     if (!EnumDisplaySettings(d.DeviceName, ENUM_CURRENT_SETTINGS, &devmode)) {
-        throw std::runtime_error("could not enum display settings for " + std::string(d.DeviceName));
+        throw std::runtime_error("could not enum display settings for " + std::string{d.DeviceName});
     }
 }
 
 const std::string Display::getName()
 {
-    return std::string(d.DeviceName);
+    return std::string{d.DeviceName};
 }
 
 const long Display::getPosX() {
@@ -44,9 +44,9 @@ const DisplayRotation Display::getRotation() {
 }
 
 bool Display::rotate(const DisplayRotation rotation) {
-    int oldRot = devmode.dmDisplayOrientation;
+    int oldRot{devmode.dmDisplayOrientation};
     int newRot{ (oldRot + rotation) % 4 };
-    if (newRot % 2 != oldRot % 2) {
+    if ((newRot % 2) != (oldRot % 2)) {
         int temp = devmode.dmPelsHeight;
         devmode.dmPelsHeight = devmode.dmPelsWidth;
         devmode.dmPelsWidth = temp;
@@ -56,8 +56,8 @@ bool Display::rotate(const DisplayRotation rotation) {
 }
 
 bool Display::resetRotation() {
-    if (devmode.dmDisplayOrientation % 2 != 0) {
-        int temp = devmode.dmPelsHeight;
+    if ((devmode.dmDisplayOrientation % 2) != 0) {
+        int temp{devmode.dmPelsHeight};
         devmode.dmPelsHeight = devmode.dmPelsWidth;
         devmode.dmPelsWidth = temp;
     }

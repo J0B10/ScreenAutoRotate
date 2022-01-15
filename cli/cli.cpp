@@ -16,7 +16,6 @@ void help() {
     std::cout << "              The angle a must be a multiple of 90 (or 0 to reset any rotation).\n";
     std::cout << "  [position | /p] [x] [y] [display]\n";
     std::cout << "              Rearrange the display with the given number to the given coordinates.\n";
-    std::cout << "              Display must be at least 1 and angle a multiple of 90 (or 0 to reset).\n";
     std::cout << "  [info | /i] [display]\n";
     std::cout << "              Display information such as name, orientation and position of displays.\n";
     std::cout << "              If display argument is not speicfied it shows the info for all displays.\n";
@@ -32,9 +31,9 @@ int rotate(int argc, char** argv) {
         return 1;
     }
 
-    int disp;
+    int disp{};
     if (argc < 4) {
-        disp = { 0 };
+        disp = 0;
     } else {
         try {
             disp = { std::stoi(argv[3]) - 1 };
@@ -46,7 +45,7 @@ int rotate(int argc, char** argv) {
     
     try {
         Display d{ disp };
-        DisplayRotation rot = static_cast<DisplayRotation>((std::stoi(argv[2]) / 90) % 4);
+        DisplayRotation rot{(std::stoi(argv[2]) / 90) % 4};
         if (rot == cw_0) {
             return !d.resetRotation();
         } else {
@@ -67,7 +66,7 @@ int setPosition(int argc, char** argv) {
         return 1;
     }
 
-    int disp;
+    int disp{0};
     if (argc < 5) {
         disp = { 0 };
     }
@@ -133,7 +132,7 @@ int main(int argc, char** argv) {
         help();
         return 0;
     }
-    std::string mode = argv[1];
+    std::string mode{argv[1]};
     if (mode.compare("/?") == 0) {
         help();
         return 0;

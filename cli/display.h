@@ -3,25 +3,25 @@
 #include <string>
 #include <Windows.h>
 
-enum DisplayRotation { cw_0, cw_90, cw_180, cw_270 };
+enum class DisplayRotation : std::uint8_t { cw_0, cw_90, cw_180, cw_270 };
 
 const int displayCount();
 
 class Display {
 private:
     DEVMODE devmode;
-    DISPLAY_DEVICE d;
+    DISPLAY_DEVICE display{};
 
 public:
     Display(const int device);
 
-    const std::string getName();
+    const std::string getName() const;
 
-    const long getPosX();
+    const long getPosX() const;
 
-    const long getPosY();
+    const long getPosY() const;
 
-    const DisplayRotation getRotation();
+    const DisplayRotation getRotation() const;
     
     bool rotate(const DisplayRotation rotation);
 
